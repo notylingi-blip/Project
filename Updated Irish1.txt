@@ -644,7 +644,7 @@ if Config.Positions and Config.Positions.MainFrame then MainFrame.Position = UDi
 
 local Header = create("Frame", {Size = UDim2.new(1,0,0,45), BackgroundTransparency = 1, Parent = MainFrame})
 create("TextLabel", {
-    Text = "Irish Hub", TextColor3 = COLORS.Border, Font = "GothamBold", TextSize = 18,
+    Text = "Irish Hub (21Hub)", TextColor3 = COLORS.Border, Font = "GothamBold", TextSize = 18,
     Size = UDim2.new(0.5,0,1,0), Position = UDim2.new(0.05,0,0,0),
     BackgroundTransparency = 1, TextXAlignment = "Left", Parent = Header
 })
@@ -2857,7 +2857,7 @@ local function createSpeedUI()
     create("UIStroke", {Color = Color3.fromRGB(0,150,0), Thickness = 2, Parent = MainFrame})
     local Title = create("TextLabel", {
         Size = UDim2.new(1,0,0,35), Position = UDim2.new(0,15,0,10), BackgroundTransparency = 1,
-        Text = "Irish Speed Customizer", TextColor3 = Color3.fromRGB(0,180,0), TextSize = 16,
+        Text = "Irish Speed Customizer (21Hub)", TextColor3 = Color3.fromRGB(0,180,0), TextSize = 16,
         TextXAlignment = Enum.TextXAlignment.Left, Font = Enum.Font.GothamBold, Parent = MainFrame
     })
     local Header = create("Frame", {
