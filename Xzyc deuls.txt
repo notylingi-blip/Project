@@ -10,13 +10,13 @@ local Stats = game:GetService("Stats")
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 
-local ACCENT  = Color3.fromRGB(245,250,255)
-local WHITE   = Color3.fromRGB(255,255,255)
-local BG      = Color3.fromRGB(0,0,0)
-local CARD    = Color3.fromRGB(0,2,2)
-local OFF_CLR = Color3.fromRGB(245,245,250)
-local MOB_ON  = Color3.fromRGB(25,25,25)
-local MOB_OFF = Color3.fromRGB(10,10,10)
+local ACCENT  = Color3.fromRGB(255,105,180)
+local WHITE   = Color3.fromRGB(255,245,250)
+local BG      = Color3.fromRGB(25,0,15)
+local CARD    = Color3.fromRGB(45,10,30)
+local OFF_CLR = Color3.fromRGB(255,170,210)
+local MOB_ON  = Color3.fromRGB(255,80,170)
+local MOB_OFF = Color3.fromRGB(60,15,40)
 
 NORMAL_SPEED=60 SLOW_SPEED=29
 POS_L1=Vector3.new(-476.48,-6.28,92.73) POS_L2=Vector3.new(-483.12,-4.95,94.80)
@@ -1246,7 +1246,7 @@ do
     OCGui.Name="EclipseXOpenClose" OCGui.ResetOnSpawn=false OCGui.ZIndexBehavior=Enum.ZIndexBehavior.Sibling
     local OBtn=Instance.new("TextButton",OCGui)
     OBtn.Size=UDim2.new(0,52,0,52) OBtn.Position=UDim2.new(0,10,0.5,-26)
-    OBtn.BackgroundColor3=Color3.fromRGB(10,8,18) OBtn.Text="⚔️" OBtn.TextSize=26
+    OBtn.BackgroundColor3=Color3.fromRGB(10,8,18) OBtn.Text="🌸" OBtn.TextSize=26
     OBtn.Font=Enum.Font.GothamBold OBtn.TextColor3=WHITE OBtn.BorderSizePixel=0 OBtn.Active=true
     Instance.new("UICorner",OBtn).CornerRadius=UDim.new(0,14)
     local OS=Instance.new("UIStroke",OBtn) OS.Thickness=2 OS.Color=ACCENT OS.ApplyStrokeMode=Enum.ApplyStrokeMode.Border
