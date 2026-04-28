@@ -1512,7 +1512,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	btn.Position         = UDim2.new(0, x, 0, y)
 	btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 	btn.BorderSizePixel  = 0
-	btn.Text             = "21 Hub Panel"
+	btn.Text             = ""
 	btn.ZIndex           = 52
 	Instance.new("UICorner", btn).CornerRadius = UDim.new(0, MB_CORNER)
 
