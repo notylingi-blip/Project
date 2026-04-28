@@ -33,7 +33,7 @@ do
 	title.Size = UDim2.new(0.9,0,0.25,0)
 	title.Position = UDim2.new(0.05,0,0.35,0)
 	title.BackgroundTransparency = 1
-	title.Text = "MURDER HUB"
+	title.Text = "21 HUB"
 	title.TextColor3 = Color3.fromRGB(255,255,255)
 	title.TextTransparency = 1
 	title.TextScaled = true
@@ -1095,7 +1095,7 @@ topDiv.BackgroundColor3=DARK_ACC;topDiv.BorderSizePixel=0;topDiv.ZIndex=11
 
 local titleLbl=Instance.new("TextLabel",topbar)
 titleLbl.Size=UDim2.new(0,150,1,0);titleLbl.Position=UDim2.new(0,12,0,0)
-titleLbl.BackgroundTransparency=1;titleLbl.Text="MURDER HUB"
+titleLbl.BackgroundTransparency=1;titleLbl.Text="21 HUB BLACK VERSION"
 titleLbl.TextColor3=ACCENT;titleLbl.Font=Enum.Font.GothamBlack;titleLbl.TextSize=13
 titleLbl.TextXAlignment=Enum.TextXAlignment.Left;titleLbl.ZIndex=12
 
@@ -1141,7 +1141,7 @@ content.BackgroundColor3=BG;content.BorderSizePixel=0;content.ClipsDescendants=t
 local mini=Instance.new("TextButton",gui)
 mini.Name="BloodMini";mini.Size=UDim2.new(0,120,0,26);mini.Position=UDim2.new(0,40,0,40)
 mini.BackgroundColor3=SIDEBAR;mini.BorderSizePixel=0
-mini.Text="MURDER HUB";mini.TextColor3=ACCENT
+mini.Text="21 HUB";mini.TextColor3=ACCENT
 mini.Font=Enum.Font.GothamBlack;mini.TextSize=10;mini.ZIndex=20;mini.Visible=false
 Instance.new("UICorner",mini).CornerRadius=UDim.new(0,8)
 Instance.new("UIStroke",mini).Color=DARK_ACC
