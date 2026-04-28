@@ -1095,7 +1095,7 @@ topDiv.BackgroundColor3=DARK_ACC;topDiv.BorderSizePixel=0;topDiv.ZIndex=11
 
 local titleLbl=Instance.new("TextLabel",topbar)
 titleLbl.Size=UDim2.new(0,150,1,0);titleLbl.Position=UDim2.new(0,12,0,0)
-titleLbl.BackgroundTransparency=1;titleLbl.Text="MURDER HUB"
+titleLbl.BackgroundTransparency=1;titleLbl.Text="21 HUB"
 titleLbl.TextColor3=ACCENT;titleLbl.Font=Enum.Font.GothamBlack;titleLbl.TextSize=13
 titleLbl.TextXAlignment=Enum.TextXAlignment.Left;titleLbl.ZIndex=12
 
@@ -1141,7 +1141,7 @@ content.BackgroundColor3=BG;content.BorderSizePixel=0;content.ClipsDescendants=t
 local mini=Instance.new("TextButton",gui)
 mini.Name="BloodMini";mini.Size=UDim2.new(0,120,0,26);mini.Position=UDim2.new(0,40,0,40)
 mini.BackgroundColor3=SIDEBAR;mini.BorderSizePixel=0
-mini.Text="MURDER HUB";mini.TextColor3=ACCENT
+mini.Text="21 HUB";mini.TextColor3=ACCENT
 mini.Font=Enum.Font.GothamBlack;mini.TextSize=10;mini.ZIndex=20;mini.Visible=false
 Instance.new("UICorner",mini).CornerRadius=UDim.new(0,8)
 Instance.new("UIStroke",mini).Color=DARK_ACC
@@ -1468,13 +1468,13 @@ mbPanel = Instance.new("Frame", gui)
 mbPanel.Name             = "MobilePanel"
 mbPanel.Size             = UDim2.new(0, MB_TOTAL_W, 0, MB_TOTAL_H)
 mbPanel.Position         = UDim2.new(1, -(MB_TOTAL_W+8), 0.5, -(MB_TOTAL_H/2))
-mbPanel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+mbPanel.BackgroundColor3 = Color3.fromRGB(0,70,180)
 mbPanel.BorderSizePixel  = 0
 mbPanel.Active           = true
 mbPanel.ZIndex           = 50
 Instance.new("UICorner", mbPanel).CornerRadius = UDim.new(0, MB_CORNER+4)
 local mbStroke = Instance.new("UIStroke", mbPanel)
-mbStroke.Color     = Color3.fromRGB(80, 8, 8)
+mbStroke.Color     = Color3.fromRGB(10, 10, 35)
 mbStroke.Thickness = 1.5
 
 -- Draggable panel (respects lock)
@@ -1512,7 +1512,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	btn.Position         = UDim2.new(0, x, 0, y)
 	btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 	btn.BorderSizePixel  = 0
-	btn.Text             = ""
+	btn.Text             = "21 Hub Panel"
 	btn.ZIndex           = 52
 	Instance.new("UICorner", btn).CornerRadius = UDim.new(0, MB_CORNER)
 
@@ -1531,11 +1531,11 @@ local function makeMobileBtn(label, row, col, onClick)
 	Instance.new("UICorner", chrome).CornerRadius = UDim.new(0, MB_CORNER)
 	local chromeGrad = Instance.new("UIGradient", chrome)
 	chromeGrad.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0,    Color3.fromRGB(255, 255, 255)),
-		ColorSequenceKeypoint.new(0.30, Color3.fromRGB(210, 210, 210)),
-		ColorSequenceKeypoint.new(0.50, Color3.fromRGB(100, 100, 100)),
-		ColorSequenceKeypoint.new(0.72, Color3.fromRGB(40,  40,  40 )),
-		ColorSequenceKeypoint.new(1,    Color3.fromRGB(18,  18,  18 )),
+		ColorSequenceKeypoint.new(0,    Color3.fromRGB(10, 10, 25)),
+		ColorSequenceKeypoint.new(0.30, Color3.fromRGB(20, 20, 45)),
+		ColorSequenceKeypoint.new(0.50, Color3.fromRGB(30, 45, 90)),
+		ColorSequenceKeypoint.new(0.72, Color3.fromRGB(50, 100, 200)),
+		ColorSequenceKeypoint.new(1,    Color3.fromRGB(0, 200, 255)),
 	})
 	chromeGrad.Transparency = NumberSequence.new({
 		NumberSequenceKeypoint.new(0,    0.40),
