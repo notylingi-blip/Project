@@ -732,78 +732,77 @@ local function stopBatCounter()
 end
 
 -- ===================== AUTO BAT ======================
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local UIS = game:GetService("UserInputService")
-local lp = Players.LocalPlayer
-
-local batActive = false
-local batConn = nil
-local AimbotRadius = 250 -- Radius gue gedein dikit biar gampang dapet target
-local BatSpeed = 60
-
-local SlapList = {
-    {1,"Bat"},{2,"Slap"},{3,"Iron Slap"},{4,"Gold Slap"},{5,"Diamond Slap"},
-    {6,"Emerald Slap"},{7,"Ruby Slap"},{8,"Dark Matter Slap"},{9,"Flame Slap"},
-    {10,"Nuclear Slap"},{11,"Galaxy Slap"},{12,"Glitched Slap"}
-}
+local autoBatSpd = 55
+local autoBatDistThreshold = 1.5
+local aimbotTarget = nil
 
 local function findBat()
-    local c = lp.Character; if not c then return nil end
-    for _, ch in ipairs(SlapList) do
-        local tool = c:FindFirstChild(ch[2]) or lp.Backpack:FindFirstChild(ch[2])
-        if tool then return tool end
-    end
-    return nil
+	local char=LP.Character;if not char then return nil end
+	local bp=LP:FindFirstChildOfClass("Backpack")
+	local SlapList={"Bat","Slap","Iron Slap","Gold Slap","Diamond Slap","Emerald Slap","Ruby Slap","Dark Matter Slap","Flame Slap","Nuclear Slap","Galaxy Slap","Glitched Slap"}
+	for _,ch in ipairs(char:GetChildren()) do if ch:IsA("Tool") and ch.Name:lower():find("bat") then return ch end end
+	if bp then for _,ch in ipairs(bp:GetChildren()) do if ch:IsA("Tool") and ch.Name:lower():find("bat") then return ch end end end
+	for _,name in ipairs(SlapList) do
+		local t=char:FindFirstChild(name) or (bp and bp:FindFirstChild(name))
+		if t then return t end
+	end
 end
 
-local function toggleBat(btnFrame, btnText)
-    batActive = not batActive
-    
-    if batActive then
-        btnFrame.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
-        btnText.Text = "LOCK: ON"
-        
-        -- PAKE HEARTBEAT BIAR GAK KALAH SAMA FISIKA GAME
-        batConn = RunService.Heartbeat:Connect(function()
-            if not batActive then return end
-            local c = lp.Character; if not c then return end
-            local h = c:FindFirstChild("HumanoidRootPart"); if not h then return end
-            
-            local b = findBat(); if not b then return end
-            if b.Parent ~= c then b.Parent = c end
-            
-            local mouse = lp:GetMouse()
-            local target = nil
-            local dist = AimbotRadius
-            
-            -- PENCARIAN TARGET TERDEKAT DARI KURSOR
-            for _, p in ipairs(Players:GetPlayers()) do
-                if p ~= lp and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-                    local hrp = p.Character.HumanoidRootPart
-                    local pos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(hrp.Position)
-                    if onScreen then
-                        local d = (Vector2.new(pos.X, pos.Y) - Vector2.new(mouse.X, mouse.Y)).Magnitude
-                        if d < dist then 
-                            target = hrp
-                            dist = d 
-                        end
-                    end
-                end
-            end
-            
-            if target then
-                -- HADAP MUSUH (CFrame)
-                h.CFrame = CFrame.new(h.Position, Vector3.new(target.Position.X, h.Position.Y, target.Position.Z))
-                
-                -- JALAN KE MUSUH (Velocity)
-                local moveDir = (target.Position - h.Position).Unit
-                h.AssemblyLinearVelocity = Vector3.new(moveDir.X * BatSpeed, h.AssemblyLinearVelocity.Y, moveDir.Z * BatSpeed)
-                
-                -- AUTO HIT
-                b:Activate()
-            end
-        end)
+local function findNearestEnemy(myHRP)
+	local nearest=nil
+	local nearestDist=math.huge
+	local nearestTorso=nil
+	for _,p in ipairs(Players:GetPlayers()) do
+		if p~=LP and p.Character then
+			local eh=p.Character:FindFirstChild("HumanoidRootPart")
+			local torso=p.Character:FindFirstChild("UpperTorso") or p.Character:FindFirstChild("Torso")
+			local hum=p.Character:FindFirstChildOfClass("Humanoid")
+			if eh and hum and hum.Health>0 then
+				local d=(eh.Position-myHRP.Position).Magnitude
+				if d<nearestDist then
+					nearestDist=d
+					nearest=eh
+					nearestTorso=torso or eh
+				end
+			end
+		end
+	end
+	return nearest,nearestDist,nearestTorso
+end
+
+local function startBatAimbot()
+	if Connections.batAimbot then return end
+	Connections.batAimbot=RunService.Heartbeat:Connect(function(dt)
+		if not autoBatEnabled then return end
+		local c=LP.Character;if not c then return end
+		local h=c:FindFirstChild("HumanoidRootPart")
+		local hum=c:FindFirstChildOfClass("Humanoid")
+		if not h or not hum then return end
+		-- Auto equip bat
+		local bat=findBat()
+		if bat and bat.Parent~=c then hum:EquipTool(bat) end
+		-- Acquire target and move
+		local target,dist,torso=findNearestEnemy(h)
+		aimbotTarget=torso or target
+		if target and torso then
+			local dir=(torso.Position-h.Position)
+			local flatDir=Vector3.new(dir.X,0,dir.Z)
+			local flatDist=flatDir.Magnitude
+			if flatDist>autoBatDistThreshold then
+				local moveDir=flatDir.Unit
+				h.AssemblyLinearVelocity=Vector3.new(moveDir.X*autoBatSpd,h.AssemblyLinearVelocity.Y,moveDir.Z*autoBatSpd)
+			else
+				local tv=target.AssemblyLinearVelocity
+				h.AssemblyLinearVelocity=Vector3.new(tv.X,h.AssemblyLinearVelocity.Y,tv.Z)
+			end
+		end
+	end)
+end
+
+local function stopBatAimbot()
+	if Connections.batAimbot then Connections.batAimbot:Disconnect();Connections.batAimbot=nil end
+	aimbotTarget=nil
+end
 
 -- ===================== LAGGER MODE =====================
 local laggerConn=nil
