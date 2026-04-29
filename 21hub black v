@@ -309,51 +309,33 @@ local function stopAutoSteal()
 end
 
 -- ===================== ANTI RAGDOLL =====================
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-
-local lp = Players.LocalPlayer
-local heartbeatConn = nil
-
-heartbeatConn = RunService.Heartbeat:Connect(function()
-    local char = lp.Character
-    if not char then return end
-    
-    local root = char:FindFirstChild("HumanoidRootPart")
-    local hum = char:FindFirstChildOfClass("Humanoid")
-    
-    if hum then
-        local humState = hum:GetState()
-        if humState == Enum.HumanoidStateType.Physics or humState == Enum.HumanoidStateType.Ragdoll or humState == Enum.HumanoidStateType.FallingDown then
-            hum:ChangeState(Enum.HumanoidStateType.Running)
-            workspace.CurrentCamera.CameraSubject = hum
-            pcall(function()
-                if lp.Character then
-                    local PlayerModule = lp.PlayerScripts:FindFirstChild("PlayerModule")
-                    if PlayerModule then
-                        local ControlModule = PlayerModule:FindFirstChild("ControlModule")
-                        if ControlModule then
-                            local Controls = require(ControlModule)
-                            if Controls and Controls.Enable then
-                                Controls:Enable()
-                            end
-                        end
-                    end
-                end
-            end)
-            if root then
-                root.Velocity = Vector3.new(0, 0, 0)
-                root.RotVelocity = Vector3.new(0, 0, 0)
-            end
-        end
-    end
-    
-    for _, obj in ipairs(char:GetDescendants()) do
-        if obj:IsA("Motor6D") and obj.Enabled == false then
-            obj.Enabled = true
-        end
-    end
-end)
+local function startAntiRagdoll()
+	if Conns.antiRag then return end
+	Conns.antiRag=RunService.Heartbeat:Connect(function()
+		local char=LP.Character;if not char then return end
+		local hum=char:FindFirstChildOfClass("Humanoid")
+		local root=char:FindFirstChild("HumanoidRootPart")
+		if hum then
+			local st=hum:GetState()
+			if st==Enum.HumanoidStateType.Physics or st==Enum.HumanoidStateType.Ragdoll or st==Enum.HumanoidStateType.FallingDown then
+				hum:ChangeState(Enum.HumanoidStateType.Running)
+				workspace.CurrentCamera.CameraSubject=hum
+				if root then
+					root.AssemblyLinearVelocity=Vector3.zero
+					root.AssemblyAngularVelocity=Vector3.zero
+				end
+			end
+		end
+		if char then
+			for _,obj in ipairs(char:GetDescendants()) do
+				if obj:IsA("Motor6D") and not obj.Enabled then obj.Enabled=true end
+			end
+		end
+	end)
+end
+local function stopAntiRagdoll()
+	if Conns.antiRag then Conns.antiRag:Disconnect();Conns.antiRag=nil end
+end
 
 -- ===================== INFINITE JUMP =====================
 local IJ_JumpConn,IJ_FallConn=nil,nil
