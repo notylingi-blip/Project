@@ -309,33 +309,6 @@ local function stopAutoSteal()
 end
 
 -- ===================== ANTI RAGDOLL =====================
-local function startAntiRagdoll()
-	if Conns.antiRag then return end
-	Conns.antiRag=RunService.Heartbeat:Connect(function()
-		local char=LP.Character;if not char then return end
-		local hum=char:FindFirstChildOfClass("Humanoid")
-		local root=char:FindFirstChild("HumanoidRootPart")
-		if hum then
-			local st=hum:GetState()
-			if st==Enum.HumanoidStateType.Physics or st==Enum.HumanoidStateType.Ragdoll or st==Enum.HumanoidStateType.FallingDown then
-				hum:ChangeState(Enum.HumanoidStateType.Running)
-				workspace.CurrentCamera.CameraSubject=hum
-				if root then
-					root.AssemblyLinearVelocity=Vector3.zero
-					root.AssemblyAngularVelocity=Vector3.zero
-				end
-			end
-		end
-		if char then
-			for _,obj in ipairs(char:GetDescendants()) do
-				if obj:IsA("Motor6D") and not obj.Enabled then obj.Enabled=true end
-			end
-		end
-	end)
-end
-local function stopAntiRagdoll()
-	if Conns.antiRag then Conns.antiRag:Disconnect();Conns.antiRag=nil end
-end
 
 -- ===================== INFINITE JUMP =====================
 local IJ_JumpConn,IJ_FallConn=nil,nil
