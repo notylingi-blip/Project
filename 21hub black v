@@ -736,92 +736,88 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 
--- [[ CONFIG ASLI NATURE ]] --
-local batAimbotActive = false
+-- [[ SETTING ASLI MANDI ]] --
+local batAimbotEnabled = false
 local batAimbotConn = nil
-local AimbotRadius = 100
-local NS = 60 -- Variabel Speed disesuaikan ke 60
+local NS = 60 -- Speed normal disesuaikan
 
-local SlapList = {
-    "Bat", "Slap", "Iron Slap", "Gold Slap", "Diamond Slap",
-    "Emerald Slap", "Ruby Slap", "Dark Matter Slap", "Flame Slap",
-    "Nuclear Slap", "Galaxy Slap", "Glitched Slap"
-}
-
-local function findBat()
-    local c = player.Character
-    if not c then return end
-    local bp = player:FindFirstChildOfClass("Backpack")
-    for _, ch in ipairs(c:GetChildren()) do 
-        if ch:IsA("Tool") and ch.Name:lower():find("bat") then return ch end 
-    end
-    if bp then 
-        for _, ch in ipairs(bp:GetChildren()) do 
-            if ch:IsA("Tool") and ch.Name:lower():find("bat") then return ch end 
-        end 
-    end
-    for _, name in ipairs(SlapList) do 
-        local t = c:FindFirstChild(name) or (bp and bp:FindFirstChild(name))
-        if t then return t end 
-    end
+-- Fungsi mencari Bat sesuai sistem Mandi
+local function getBat()
+    local char = player.Character
+    if not char then return nil end
+    return char:FindFirstChild("Bat") or player.Backpack:FindFirstChild("Bat")
 end
 
-local function findNearestEnemy(myHRP)
-    local nearest, nearestDist = nil, math.huge
+-- Fungsi mencari Target terdekat sesuai sistem Mandi
+local function getClosestPlayer()
+    local target, dist = nil, math.huge
+    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return nil end
+    
     for _, p in ipairs(Players:GetPlayers()) do
-        if p ~= player and p.Character then
-            local eh = p.Character:FindFirstChild("HumanoidRootPart")
+        if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
             local hum = p.Character:FindFirstChildOfClass("Humanoid")
-            if eh and hum and hum.Health > 0 then
-                local d = (eh.Position - myHRP.Position).Magnitude
-                if d < nearestDist and d <= AimbotRadius then 
-                    nearestDist = d
-                    nearest = eh
+            if hum and hum.Health > 0 then
+                local d = (p.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
+                if d < dist then
+                    dist = d
+                    target = p.Character.HumanoidRootPart
                 end
             end
         end
     end
-    return nearest
+    return target
 end
 
+-- [[ CORE LOCK / BAT AIMBOT FUNCTION ]] --
 local function startBatAimbot()
     if batAimbotConn then batAimbotConn:Disconnect() end
-    batAimbotActive = true
+    batAimbotEnabled = true
+    
     batAimbotConn = RunService.Heartbeat:Connect(function()
-        if not batAimbotActive then return end
-        local c = player.Character
-        local h = c and c:FindFirstChild("HumanoidRootPart")
-        local hum = c and c:FindFirstChildOfClass("Humanoid")
-        if not h or not hum then return end
+        if not batAimbotEnabled then return end
+        
+        local char = player.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        local hum = char and char:FindFirstChildOfClass("Humanoid")
+        if not hrp or not hum then return end
 
-        local bat = findBat()
-        if bat and bat.Parent ~= c then hum:EquipTool(bat) end
+        -- Auto Equip Bat
+        local bat = getBat()
+        if bat and bat.Parent ~= char then
+            hum:EquipTool(bat)
+        end
 
-        local target = findNearestEnemy(h)
+        local target = getClosestPlayer()
         if target then
-            -- Nature Prediction Logic (0.13)
-            local pred = target.Position + (target.AssemblyLinearVelocity * 0.13)
-            local dir = (pred - h.Position)
-            
-            -- Nature Smooth Face Target
-            h.CFrame = h.CFrame:Lerp(CFrame.new(h.Position, Vector3.new(target.Position.X, h.Position.Y, target.Position.Z)), 0.2)
+            -- Logic Offset Lock Mandi (3.8 Studs di atas kepala target)
+            local targetPos = target.Position + Vector3.new(0, 3.8, 0)
+            local diff = targetPos - hrp.Position
+            local dist = diff.Magnitude
+            local dir = diff.Unit
 
-            -- Nature Movement Logic
-            if dir.Magnitude > 1.5 then 
-                h.AssemblyLinearVelocity = dir.Unit * NS
-            else 
-                h.AssemblyLinearVelocity = target.AssemblyLinearVelocity 
+            -- Smooth Rotation ke arah Target
+            hrp.CFrame = hrp.CFrame:Lerp(CFrame.new(hrp.Position, Vector3.new(target.Position.X, hrp.Position.Y, target.Position.Z)), 0.25)
+
+            -- Movement Logic menggunakan AssemblyLinearVelocity
+            if dist > 1.2 then
+                hrp.AssemblyLinearVelocity = dir * NS
+            else
+                -- Nempel stabil mengikuti kecepatan target
+                hrp.AssemblyLinearVelocity = target.AssemblyLinearVelocity * 0.95
             end
-            
+
+            -- Auto Hit
             if bat then bat:Activate() end
         else
-            h.AssemblyLinearVelocity = Vector3.new(0, h.AssemblyLinearVelocity.Y, 0)
+            -- Berhenti jika tidak ada target
+            hrp.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
         end
     end)
 end
 
 local function stopBatAimbot()
-    batAimbotActive = false
+    batAimbotEnabled = false
     if batAimbotConn then batAimbotConn:Disconnect(); batAimbotConn = nil end
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         player.Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
