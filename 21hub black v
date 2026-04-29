@@ -736,12 +736,12 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LP = Players.LocalPlayer
 
--- [[ CONFIG ASLI CUSERD ]] --
-local NS = 60
+-- [[ SETTING ]] --
+local NS = 60 -- Mengikuti variable NS dari 21 Hub
 local autoBatEnabled = false
 local autoBatConn = nil
 
--- [[ LOGIC TARGETING CUSERD ]] --
+-- [[ LOGIC GET TARGET ]] --
 local function getClosestEnemy()
     local target, shortestDist = nil, math.huge
     local char = LP.Character
@@ -765,18 +765,21 @@ local function getClosestEnemy()
     return target
 end
 
--- [[ CORE AUTO BAT FUNCTION ]] --
+-- [[ CORE LOGIC AUTO BAT CUSERD ]] --
 local function startAutoBat()
     if autoBatConn then autoBatConn:Disconnect() end
     autoBatEnabled = true
     autoBatConn = RunService.Heartbeat:Connect(function()
         if not autoBatEnabled then return end
+        
         local char = LP.Character
-        local hrp = char and char:FindFirstChild("HumanoidRootPart")
-        local hum = char and char:FindFirstChildOfClass("Humanoid")
+        if not char then return end
+        
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        local hum = char:FindFirstChildOfClass("Humanoid")
         if not hrp or not hum then return end
 
-        -- Auto Equip Tool
+        -- Auto Equip Bat
         local bat = char:FindFirstChild("Bat") or LP.Backpack:FindFirstChild("Bat")
         if bat and bat.Parent ~= char then
             hum:EquipTool(bat)
@@ -784,26 +787,27 @@ local function startAutoBat()
 
         local enemy = getClosestEnemy()
         if enemy then
-            -- Logic Position & Offset (Cuserd Style)
+            -- Logic Position & Offset dari Cuserd.txt
             local targetPos = enemy.Position + Vector3.new(0, 3.8, 0)
             local diff = (targetPos - hrp.Position)
             local dist = diff.Magnitude
             local dir = diff.Unit
 
-            -- LookAt Target
+            -- LookAt Enemy (Tanpa ganggu rotasi sumbu Y)
             hrp.CFrame = hrp.CFrame:Lerp(CFrame.new(hrp.Position, Vector3.new(enemy.Position.X, hrp.Position.Y, enemy.Position.Z)), 0.25)
 
-            -- Movement Logic with NS (60)
+            -- Movement Logic (Integrasi dengan NS 21 Hub)
             if dist > 1.2 then
                 hrp.AssemblyLinearVelocity = dir * NS
             else
-                -- Lock Velocity / Nempel
+                -- Lock Velocity / Nempel Stabil
                 hrp.AssemblyLinearVelocity = enemy.AssemblyLinearVelocity * 0.95
             end
 
-            -- Click / Activate
+            -- Click/Activate Bat
             if bat then bat:Activate() end
         else
+            -- Stop velocity kalau ga ada target
             hrp.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
         end
     end)
