@@ -2188,12 +2188,6 @@ local function loadConfig()
 	end
 end
 
-switchTab("Speed")
-loadConfig()
-end -- buildGUI
-buildGUI()
-print("[Murder Hub v1] Loaded!")
-
 repeat task.wait() until game:IsLoaded()
 
 local Players = game:GetService("Players")
@@ -2254,5 +2248,11 @@ button.Font = Enum.Font.GothamBlack
 button.BorderSizePixel = 0
 
 button.MouseButton1Click:Connect(function()
-	game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("21 On Top!! You Stupid Ask To Your Mom, Im Lose😭😭")
+	game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("21 On Top!! You Soo Lol, Ask To Your Mom, Im Lose😭😭")
 end)
+
+switchTab("Speed")
+loadConfig()
+end -- buildGUI
+buildGUI()
+print("[Murder Hub v1] Loaded!")
