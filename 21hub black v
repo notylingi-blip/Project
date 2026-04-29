@@ -737,8 +737,8 @@ local RunService = game:GetService("RunService")
 local lp = Players.LocalPlayer
 
 local BatSpeed = 59 
-local HorizontalGap = 1.2 
-local VerticalOffset = 3.8 
+local HorizontalGap = 1.2
+local VerticalOffset = 3.8
 local batActive = false
 local batConn = nil
 
@@ -783,13 +783,14 @@ local function startBatAimbot()
         local target = findNearestEnemy(h)
         if target then
             local targetPos = target.Position + Vector3.new(0, VerticalOffset, 0)
-            local direction = (targetPos - h.Position).Unit
-            local distance = (targetPos - h.Position).Magnitude
-            h.CFrame = CFrame.new(h.Position, target.Position)
-            if distance > HorizontalGap then
-                h.AssemblyLinearVelocity = direction * BatSpeed
+            local diff = (targetPos - h.Position)
+            local dist = diff.Magnitude
+            local dir = diff.Unit
+            h.CFrame = h.CFrame:Lerp(CFrame.new(h.Position, target.Position), 0.25)
+            if dist > HorizontalGap then
+                h.AssemblyLinearVelocity = dir * BatSpeed
             else
-                h.AssemblyLinearVelocity = target.AssemblyLinearVelocity
+                h.AssemblyLinearVelocity = target.AssemblyLinearVelocity * 0.98
             end
             if bat then bat:Activate() end
         end
