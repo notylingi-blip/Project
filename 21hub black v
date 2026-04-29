@@ -786,12 +786,18 @@ local function startBatAimbot()
             local diff = (targetPos - h.Position)
             local dist = diff.Magnitude
             local dir = diff.Unit
+            
+            -- Anti-Aim Detection Bypass (Smooth Rotation)
             h.CFrame = h.CFrame:Lerp(CFrame.new(h.Position, target.Position), 0.25)
+            
             if dist > HorizontalGap then
+                -- Bypass Speed Cap dengan Velocity
                 h.AssemblyLinearVelocity = dir * BatSpeed
             else
+                -- Nempel stabil mengikuti musuh
                 h.AssemblyLinearVelocity = target.AssemblyLinearVelocity * 0.98
             end
+            
             if bat then bat:Activate() end
         end
     end)
