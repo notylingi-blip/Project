@@ -736,7 +736,7 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local lp = Players.LocalPlayer
 
-local BatSpeed = 59 
+local BatSpeed = 60 
 local HorizontalGap = 1.2
 local VerticalOffset = 3.8
 local batActive = false
@@ -787,14 +787,11 @@ local function startBatAimbot()
             local dist = diff.Magnitude
             local dir = diff.Unit
             
-            -- Anti-Aim Detection Bypass (Smooth Rotation)
             h.CFrame = h.CFrame:Lerp(CFrame.new(h.Position, target.Position), 0.25)
             
             if dist > HorizontalGap then
-                -- Bypass Speed Cap dengan Velocity
                 h.AssemblyLinearVelocity = dir * BatSpeed
             else
-                -- Nempel stabil mengikuti musuh
                 h.AssemblyLinearVelocity = target.AssemblyLinearVelocity * 0.98
             end
             
