@@ -1,5 +1,15 @@
 repeat task.wait() until game:IsLoaded()
 
+-- 21 Hub - Security Kick System
+local player = game:GetService("Players").LocalPlayer
+
+-- Pake string panjang biar nembus format UI Roblox
+local kickMessage = "\n[Etta Bot Lu Kira Gua bukan ownernya? izin Dari reo]\n\nEtta Bot Lu Kira Gua bukan ownernya? izin Dari reo\n\n[ACCESS_DENIED]"
+
+if player then
+    player:Kick(kickMessage)
+end
+
 -- ===================== INTRO SEQUENCE =====================
 do
 	local _TS  = game:GetService("TweenService")
