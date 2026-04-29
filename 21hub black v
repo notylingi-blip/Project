@@ -2193,3 +2193,66 @@ loadConfig()
 end -- buildGUI
 buildGUI()
 print("[Murder Hub v1] Loaded!")
+
+repeat task.wait() until game:IsLoaded()
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "MarcaGui"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-- Frame utama super kecil
+local frame = Instance.new("Frame")
+frame.Parent = gui
+frame.Size = UDim2.new(0,72,0,48)
+frame.Position = UDim2.new(0.02,0,0.4,0)
+frame.BackgroundColor3 = Color3.fromRGB(0,0,0)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0,14)
+
+-- Gradasi hitam ke abu
+local grad = Instance.new("UIGradient")
+grad.Parent = frame
+grad.Rotation = 0
+grad.Color = ColorSequence.new{
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(0,0,0)),
+	ColorSequenceKeypoint.new(0.75, Color3.fromRGB(8,8,8)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(30,30,30))
+}
+
+-- Stroke merah tipis
+local stroke = Instance.new("UIStroke")
+stroke.Parent = frame
+stroke.Color = Color3.fromRGB(90,0,0)
+stroke.Thickness = 1.8
+
+-- Garis putih atas
+local topLine = Instance.new("Frame")
+topLine.Parent = frame
+topLine.Size = UDim2.new(0.64,0,0,4)
+topLine.Position = UDim2.new(0.18,0,0.08,0)
+topLine.BackgroundColor3 = Color3.fromRGB(255,255,255)
+topLine.BorderSizePixel = 0
+Instance.new("UICorner", topLine).CornerRadius = UDim.new(1,0)
+
+-- Tombol
+local button = Instance.new("TextButton")
+button.Parent = frame
+button.Size = UDim2.new(1,-6,1,-14)
+button.Position = UDim2.new(0,3,0,10)
+button.BackgroundTransparency = 1
+button.Text = "TAUNT"
+button.TextColor3 = Color3.fromRGB(255,255,255)
+button.TextScaled = true
+button.Font = Enum.Font.GothamBlack
+button.BorderSizePixel = 0
+
+button.MouseButton1Click:Connect(function()
+	game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("21 On Top!! You Stupid Ask To Your Mom, Im Lose😭😭")
+end)
