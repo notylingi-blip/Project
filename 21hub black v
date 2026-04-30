@@ -34,7 +34,7 @@ do
 	title.Position = UDim2.new(0.05,0,0.35,0)
 	title.BackgroundTransparency = 1
 	title.Text = "21 HUB"
-	title.TextColor3 = Color3.fromRGB(255,255,255)
+	title.TextColor3 = Color3.fromRGB(255, 80, 170)
 	title.TextTransparency = 1
 	title.TextScaled = true
 	title.Font = Enum.Font.GothamBlack
@@ -736,24 +736,23 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LP = Players.LocalPlayer
 
-getgenv().AutoBatChiron = true
-local SillySpeed = 60
+local autoBatEnabled = true
+local autoBatConn = nil
+local sillyBoostValue = 60 -- Nilai speed dari logic Silly
 
-local function getChironTarget()
-    local target, dist = nil, math.huge
-    local myHrp = LP.Character and LP.Character:FindFirstChild("HumanoidRootPart")
-    if not myHrp then return nil end
+local function getClosestEnemy()
+    local target, shortestDist = nil, math.huge
+    local hrp = LP.Character and LP.Character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return nil end
 
     for _, p in ipairs(Players:GetPlayers()) do
         if p ~= LP and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-            local eChar = p.Character
-            local eHum = eChar:FindFirstChildOfClass("Humanoid")
-            local eHrp = eChar.HumanoidRootPart
-            
+            local eHrp = p.Character.HumanoidRootPart
+            local eHum = p.Character:FindFirstChildOfClass("Humanoid")
             if eHum and eHum.Health > 0 then
-                local d = (eHrp.Position - myHrp.Position).Magnitude
-                if d < dist then
-                    dist = d
+                local dist = (eHrp.Position - hrp.Position).Magnitude
+                if dist < shortestDist then
+                    shortestDist = dist
                     target = eHrp
                 end
             end
@@ -762,10 +761,10 @@ local function getChironTarget()
     return target
 end
 
-if getgenv().BatLoop then getgenv().BatLoop:Disconnect() end
+if autoBatConn then autoBatConn:Disconnect() end
 
-getgenv().BatLoop = RunService.Heartbeat:Connect(function()
-    if not getgenv().AutoBatChiron then return end
+autoBatConn = RunService.Heartbeat:Connect(function()
+    if not autoBatEnabled then return end
     
     local char = LP.Character
     local hrp = char and char:FindFirstChild("HumanoidRootPart")
@@ -777,23 +776,29 @@ getgenv().BatLoop = RunService.Heartbeat:Connect(function()
         hum:EquipTool(bat) 
     end
 
-    local target = getChironTarget()
-    if target then
-        local targetPos = target.Position + Vector3.new(0, 3.8, 0)
+    local enemy = getClosestEnemy()
+    if enemy then
+        -- Logic Position Offset 3.8 (Cuserd)
+        local targetPos = enemy.Position + Vector3.new(0, 3.8, 0)
         local diff = (targetPos - hrp.Position)
-        local dir = diff.Unit
         local dist = diff.Magnitude
+        local dir = diff.Unit
 
-        hrp.CFrame = CFrame.new(hrp.Position, Vector3.new(target.Position.X, hrp.Position.Y, target.Position.Z))
+        -- Aimbot Lock (CFrame.new asli Cuserd)
+        hrp.CFrame = CFrame.new(hrp.Position, Vector3.new(enemy.Position.X, hrp.Position.Y, enemy.Position.Z))
 
+        -- [[ LOGIC SPEED MURNI SILLY BOOSTER ]] --
+        -- Silly Booster pake direct Velocity assignment tiap Heartbeat
         if dist > 1.2 then
-            hrp.Velocity = dir * SillySpeed
+            hrp.Velocity = dir * sillyBoostValue
         else
-            hrp.Velocity = target.Velocity * 1.05
+            -- Pas nempel pake multiplier 1.05 biar gak lepas (Silly style)
+            hrp.Velocity = enemy.Velocity * 1.05
         end
 
         if bat then bat:Activate() end
     else
+        -- Stop pergerakan ala Silly (Reset Velocity)
         hrp.Velocity = Vector3.new(0, hrp.Velocity.Y, 0)
     end
 end)
