@@ -1021,19 +1021,19 @@ for _,n in pairs({"MurderHubGUI"}) do
 end
 
 -- ===================== COLORS =====================
-local BG        = Color3.fromRGB(8,8,8)
-local SIDEBAR   = Color3.fromRGB(14,14,14)
-local CARD_BG   = Color3.fromRGB(20,20,20)
-local CARD_HOV  = Color3.fromRGB(30,30,30)
-local BORDER    = Color3.fromRGB(40,40,40)
-local BORDER2   = Color3.fromRGB(70,70,70)
-local WHITE     = Color3.fromRGB(235,235,235)
-local DIM       = Color3.fromRGB(160,160,160)
-local ACCENT    = Color3.fromRGB(235,235,235)
-local DARK_ACC  = Color3.fromRGB(90,90,90)
-local OFF_BG    = Color3.fromRGB(20,20,20)
-local KB_BG     = Color3.fromRGB(14,14,14)
-local INPUT_BG  = Color3.fromRGB(14,14,14)
+local BG        = Color3.fromRGB(5, 20, 10)
+local SIDEBAR   = Color3.fromRGB(10, 35, 18)
+local CARD_BG   = Color3.fromRGB(15, 50, 25)
+local CARD_HOV  = Color3.fromRGB(20, 70, 35)
+local BORDER    = Color3.fromRGB(30, 90, 50)
+local BORDER2   = Color3.fromRGB(60, 140, 90)
+local WHITE     = Color3.fromRGB(240, 255, 245)
+local DIM       = Color3.fromRGB(120, 200, 150)
+local ACCENT    = Color3.fromRGB(50, 220, 120)
+local DARK_ACC  = Color3.fromRGB(25, 120, 70)
+local OFF_BG    = Color3.fromRGB(12, 40, 22)
+local KB_BG     = Color3.fromRGB(10, 30, 18)
+local INPUT_BG  = Color3.fromRGB(10, 30, 18)
 
 local ACTIVE_TAB_BG  = ACCENT
 local ACTIVE_TAB_TXT = WHITE
@@ -1468,7 +1468,7 @@ mbPanel = Instance.new("Frame", gui)
 mbPanel.Name             = "MobilePanel"
 mbPanel.Size             = UDim2.new(0, MB_TOTAL_W, 0, MB_TOTAL_H)
 mbPanel.Position         = UDim2.new(1, -(MB_TOTAL_W+8), 0.5, -(MB_TOTAL_H/2))
-mbPanel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+mbPanel.BackgroundColor3 = Color3.fromRGB(5, 20, 10)
 mbPanel.BorderSizePixel  = 0
 mbPanel.Active           = true
 mbPanel.ZIndex           = 50
@@ -1524,7 +1524,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	-- Chrome gradient overlay — strong metallic sheen like the photo
 	local chrome = Instance.new("Frame", btn)
 	chrome.Size                   = UDim2.new(1, 0, 1, 0)
-	chrome.BackgroundColor3       = Color3.fromRGB(255, 255, 255)
+	chrome.BackgroundColor3       = Color3.fromRGB(50, 220, 120))
 	chrome.BackgroundTransparency = 0.70
 	chrome.BorderSizePixel        = 0
 	chrome.ZIndex                 = 53
@@ -1550,7 +1550,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	local topGlow = Instance.new("Frame", btn)
 	topGlow.Size                   = UDim2.new(0.65, 0, 0, 2)
 	topGlow.Position               = UDim2.new(0.175, 0, 0, 2)
-	topGlow.BackgroundColor3       = Color3.fromRGB(240, 240, 240)
+	topGlow.BackgroundColor3       = Color3.fromRGB(220, 235, 225)
 	topGlow.BackgroundTransparency = 0.45
 	topGlow.BorderSizePixel        = 0
 	topGlow.ZIndex                 = 54
