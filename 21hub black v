@@ -1509,7 +1509,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	local btn = Instance.new("TextButton", mbPanel)
 	btn.Size             = UDim2.new(0, MB_BTN_W, 0, MB_BTN_H)
 	btn.Position         = UDim2.new(0, x, 0, y)
-	btn.BackgroundColor3 = Color3.fromRGB(5, 20, 10)
+	btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 	btn.BorderSizePixel  = 0
 	btn.Text             = ""
 	btn.ZIndex           = 52
