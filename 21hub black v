@@ -16,7 +16,7 @@ do
 
 	local bg = Instance.new("Frame")
 	bg.Size = UDim2.new(1,0,1,0)
-	bg.BackgroundColor3 = Color3.new(0,0,0)
+	bg.BackgroundColor3 = Color3.new(255, 80, 170)
 	bg.BackgroundTransparency = 0.4
 	bg.BorderSizePixel = 0
 	bg.Parent = screenGui
