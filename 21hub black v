@@ -1509,7 +1509,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	local btn = Instance.new("TextButton", mbPanel)
 	btn.Size             = UDim2.new(0, MB_BTN_W, 0, MB_BTN_H)
 	btn.Position         = UDim2.new(0, x, 0, y)
-	btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	btn.BackgroundColor3 = Color3.fromRGB(5, 20, 10)
 	btn.BorderSizePixel  = 0
 	btn.Text             = ""
 	btn.ZIndex           = 52
@@ -1523,7 +1523,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	-- Chrome gradient overlay — strong metallic sheen like the photo
 	local chrome = Instance.new("Frame", btn)
 	chrome.Size                   = UDim2.new(1, 0, 1, 0)
-	chrome.BackgroundColor3       = Color3.fromRGB(255, 255, 255)
+	chrome.BackgroundColor3       = Color3.fromRGB(50, 220, 120)
 	chrome.BackgroundTransparency = 0.70
 	chrome.BorderSizePixel        = 0
 	chrome.ZIndex                 = 53
@@ -1549,7 +1549,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	local topGlow = Instance.new("Frame", btn)
 	topGlow.Size                   = UDim2.new(0.65, 0, 0, 2)
 	topGlow.Position               = UDim2.new(0.175, 0, 0, 2)
-	topGlow.BackgroundColor3       = Color3.fromRGB(240, 240, 240)
+	topGlow.BackgroundColor3       = Color3.fromRGB(220, 235, 225)
 	topGlow.BackgroundTransparency = 0.45
 	topGlow.BorderSizePixel        = 0
 	topGlow.ZIndex                 = 54
@@ -1560,7 +1560,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	lbl.Size                   = UDim2.new(1, 0, 1, 0)
 	lbl.BackgroundTransparency = 1
 	lbl.Text                   = label
-	lbl.TextColor3             = Color3.fromRGB(245, 245, 245)
+	lbl.TextColor3             = Color3.fromRGB(240, 255, 245)
 	lbl.Font                   = Enum.Font.GothamBlack
 	lbl.TextSize               = 9
 	lbl.TextWrapped            = true
