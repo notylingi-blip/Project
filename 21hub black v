@@ -1094,7 +1094,7 @@ topDiv.BackgroundColor3=DARK_ACC;topDiv.BorderSizePixel=0;topDiv.ZIndex=11
 
 local titleLbl=Instance.new("TextLabel",topbar)
 titleLbl.Size=UDim2.new(0,150,1,0);titleLbl.Position=UDim2.new(0,12,0,0)
-titleLbl.BackgroundTransparency=1;titleLbl.Text="21 HUB BLACK VERSION"
+titleLbl.BackgroundTransparency=1;titleLbl.Text="🌺21 HUB Pink Version🌺"
 titleLbl.TextColor3=ACCENT;titleLbl.Font=Enum.Font.GothamBlack;titleLbl.TextSize=13
 titleLbl.TextXAlignment=Enum.TextXAlignment.Left;titleLbl.ZIndex=12
 
