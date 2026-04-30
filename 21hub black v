@@ -736,25 +736,24 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LP = Players.LocalPlayer
 
-local autoBatEnabled = true -- Langsung set true buat ngetes
-local autoBatConn = nil
-local SillySpeed = 60 
+getgenv().AutoBatChiron = true
+local SillySpeed = 60
 
-local function getClosestEnemy()
-    local target, shortestDist = nil, math.huge
-    local char = LP.Character
-    if not char then return nil end
-    local hrp = char:FindFirstChild("HumanoidRootPart")
-    if not hrp then return nil end
+local function getChironTarget()
+    local target, dist = nil, math.huge
+    local myHrp = LP.Character and LP.Character:FindFirstChild("HumanoidRootPart")
+    if not myHrp then return nil end
 
     for _, p in ipairs(Players:GetPlayers()) do
         if p ~= LP and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-            local eHrp = p.Character.HumanoidRootPart
-            local eHum = p.Character:FindFirstChildOfClass("Humanoid")
+            local eChar = p.Character
+            local eHum = eChar:FindFirstChildOfClass("Humanoid")
+            local eHrp = eChar.HumanoidRootPart
+            
             if eHum and eHum.Health > 0 then
-                local dist = (eHrp.Position - hrp.Position).Magnitude
-                if dist < shortestDist then
-                    shortestDist = dist
+                local d = (eHrp.Position - myHrp.Position).Magnitude
+                if d < dist then
+                    dist = d
                     target = eHrp
                 end
             end
@@ -763,10 +762,10 @@ local function getClosestEnemy()
     return target
 end
 
-if autoBatConn then autoBatConn:Disconnect() end
+if getgenv().BatLoop then getgenv().BatLoop:Disconnect() end
 
-autoBatConn = RunService.Heartbeat:Connect(function()
-    if not autoBatEnabled then return end
+getgenv().BatLoop = RunService.Heartbeat:Connect(function()
+    if not getgenv().AutoBatChiron then return end
     
     local char = LP.Character
     local hrp = char and char:FindFirstChild("HumanoidRootPart")
@@ -778,24 +777,24 @@ autoBatConn = RunService.Heartbeat:Connect(function()
         hum:EquipTool(bat) 
     end
 
-    local enemy = getClosestEnemy()
-    if enemy then
-        local targetPos = enemy.Position + Vector3.new(0, 3.8, 0)
+    local target = getChironTarget()
+    if target then
+        local targetPos = target.Position + Vector3.new(0, 3.8, 0)
         local diff = (targetPos - hrp.Position)
-        local dist = diff.Magnitude
         local dir = diff.Unit
+        local dist = diff.Magnitude
 
-        hrp.CFrame = hrp.CFrame:Lerp(CFrame.new(hrp.Position, Vector3.new(enemy.Position.X, hrp.Position.Y, enemy.Position.Z)), 0.25)
+        hrp.CFrame = CFrame.new(hrp.Position, Vector3.new(target.Position.X, hrp.Position.Y, target.Position.Z))
 
         if dist > 1.2 then
-            hrp.AssemblyLinearVelocity = dir * SillySpeed
+            hrp.Velocity = dir * SillySpeed
         else
-            hrp.AssemblyLinearVelocity = enemy.AssemblyLinearVelocity * 1.05
+            hrp.Velocity = target.Velocity * 1.05
         end
 
         if bat then bat:Activate() end
     else
-        hrp.AssemblyLinearVelocity = Vector3.new(0, hrp.AssemblyLinearVelocity.Y, 0)
+        hrp.Velocity = Vector3.new(0, hrp.Velocity.Y, 0)
     end
 end)
 
