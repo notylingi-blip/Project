@@ -1020,19 +1020,19 @@ for _,n in pairs({"MurderHubGUI"}) do
 end
 
 -- ===================== COLORS =====================
-local BG        = Color3.fromRGB(20, 0, 12)
-local SIDEBAR   = Color3.fromRGB(35, 5, 22)
-local CARD_BG   = Color3.fromRGB(50, 10, 30)
-local CARD_HOV  = Color3.fromRGB(70, 15, 45)
-local BORDER    = Color3.fromRGB(90, 20, 60)
-local BORDER2   = Color3.fromRGB(140, 40, 90)
-local WHITE     = Color3.fromRGB(255, 240, 250)
-local DIM       = Color3.fromRGB(200, 120, 160)
-local ACCENT    = Color3.fromRGB(255, 80, 170)
-local DARK_ACC  = Color3.fromRGB(120, 30, 80)
-local OFF_BG    = Color3.fromRGB(40, 10, 25)
-local KB_BG     = Color3.fromRGB(30, 5, 18)
-local INPUT_BG  = Color3.fromRGB(30, 5, 18)
+local BG        = Color3.fromRGB(5, 20, 10)
+local SIDEBAR   = Color3.fromRGB(10, 35, 18)
+local CARD_BG   = Color3.fromRGB(15, 50, 25)
+local CARD_HOV  = Color3.fromRGB(20, 70, 35)
+local BORDER    = Color3.fromRGB(30, 90, 50)
+local BORDER2   = Color3.fromRGB(60, 140, 90)
+local WHITE     = Color3.fromRGB(240, 255, 245)
+local DIM       = Color3.fromRGB(120, 200, 150)
+local ACCENT    = Color3.fromRGB(50, 220, 120)
+local DARK_ACC  = Color3.fromRGB(25, 120, 70)
+local OFF_BG    = Color3.fromRGB(12, 40, 22)
+local KB_BG     = Color3.fromRGB(10, 30, 18)
+local INPUT_BG  = Color3.fromRGB(10, 30, 18)
 
 local ACTIVE_TAB_BG  = ACCENT
 local ACTIVE_TAB_TXT = WHITE
@@ -1094,7 +1094,7 @@ topDiv.BackgroundColor3=DARK_ACC;topDiv.BorderSizePixel=0;topDiv.ZIndex=11
 
 local titleLbl=Instance.new("TextLabel",topbar)
 titleLbl.Size=UDim2.new(0,150,1,0);titleLbl.Position=UDim2.new(0,12,0,0)
-titleLbl.BackgroundTransparency=1;titleLbl.Text="🌺21 HUB Pink Version🌺"
+titleLbl.BackgroundTransparency=1;titleLbl.Text="🌵21 HUB Green Version🌵"
 titleLbl.TextColor3=ACCENT;titleLbl.Font=Enum.Font.GothamBlack;titleLbl.TextSize=13
 titleLbl.TextXAlignment=Enum.TextXAlignment.Left;titleLbl.ZIndex=12
 
