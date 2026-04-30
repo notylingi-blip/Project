@@ -736,12 +736,10 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LP = Players.LocalPlayer
 
--- [[ ASLI DARI CUSERD.TXT ]] --
-local NS = 60 -- Nilai Normal Speed dari Cuserd
 local autoBatEnabled = false
 local autoBatConn = nil
+local SillySpeed = 60
 
--- Logic mencari musuh terdekat (Cuserd Style)
 local function getClosestEnemy()
     local target, shortestDist = nil, math.huge
     local hrp = LP.Character and LP.Character:FindFirstChild("HumanoidRootPart")
@@ -763,7 +761,6 @@ local function getClosestEnemy()
     return target
 end
 
--- [[ CORE AUTO BAT + AIMBOT ]] --
 local function startAutoBat()
     if autoBatConn then autoBatConn:Disconnect() end
     autoBatEnabled = true
@@ -776,7 +773,6 @@ local function startAutoBat()
         local hum = char and char:FindFirstChildOfClass("Humanoid")
         if not hrp or not hum then return end
 
-        -- Auto Equip Tool (Sesuai Logic Cuserd)
         local bat = char:FindFirstChild("Bat") or LP.Backpack:FindFirstChild("Bat")
         if bat and bat.Parent ~= char then 
             hum:EquipTool(bat) 
@@ -784,30 +780,22 @@ local function startAutoBat()
 
         local enemy = getClosestEnemy()
         if enemy then
-            -- Position Offset 3.8 (Murni Logic Cuserd)
             local targetPos = enemy.Position + Vector3.new(0, 3.8, 0)
             local diff = (targetPos - hrp.Position)
             local dist = diff.Magnitude
             local dir = diff.Unit
 
-            -- [[ FITUR AIMBOT ]] --
-            -- Menghadap ke target secara smooth menggunakan Lerp
             hrp.CFrame = hrp.CFrame:Lerp(CFrame.new(hrp.Position, Vector3.new(enemy.Position.X, hrp.Position.Y, enemy.Position.Z)), 0.25)
 
-            -- [[ MOVEMENT LOGIC ASLI CUSERD ]] --
             if dist > 1.2 then
-                -- Mengejar target dengan kecepatan NS (60)
-                hrp.AssemblyLinearVelocity = dir * NS
+                hrp.AssemblyLinearVelocity = dir * SillySpeed
             else
-                -- Mengunci velocity agar menempel stabil pada target
-                hrp.AssemblyLinearVelocity = enemy.AssemblyLinearVelocity * 0.98
+                hrp.AssemblyLinearVelocity = enemy.AssemblyLinearVelocity * 1.05
             end
 
-            -- Serang Otomatis
             if bat then bat:Activate() end
         else
-            -- Reset pergerakan jika tidak ada target
-            hrp.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+            hrp.AssemblyLinearVelocity = Vector3.new(0, hrp.AssemblyLinearVelocity.Y, 0)
         end
     end)
 end
