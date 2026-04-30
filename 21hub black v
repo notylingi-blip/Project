@@ -16,8 +16,8 @@ do
 
 	local bg = Instance.new("Frame")
 	bg.Size = UDim2.new(1,0,1,0)
-	bg.BackgroundColor3 = Color3.new(255, 80, 170)
-	bg.BackgroundTransparency = 0.4
+	bg.BackgroundColor3 = Color3.new(50, 220, 120))
+	bg.BackgroundTransparency = 0.7
 	bg.BorderSizePixel = 0
 	bg.Parent = screenGui
 
@@ -34,7 +34,7 @@ do
 	title.Position = UDim2.new(0.05,0,0.35,0)
 	title.BackgroundTransparency = 1
 	title.Text = "21 HUB"
-	title.TextColor3 = Color3.fromRGB(255, 80, 170)
+	title.TextColor3 = Color3.fromRGB(50, 220, 120))
 	title.TextTransparency = 1
 	title.TextScaled = true
 	title.Font = Enum.Font.GothamBlack
