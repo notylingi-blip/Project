@@ -736,13 +736,15 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LP = Players.LocalPlayer
 
-local autoBatEnabled = false
+local autoBatEnabled = true -- Langsung set true buat ngetes
 local autoBatConn = nil
-local SillySpeed = 60
+local SillySpeed = 60 
 
 local function getClosestEnemy()
     local target, shortestDist = nil, math.huge
-    local hrp = LP.Character and LP.Character:FindFirstChild("HumanoidRootPart")
+    local char = LP.Character
+    if not char then return nil end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
     if not hrp then return nil end
 
     for _, p in ipairs(Players:GetPlayers()) do
@@ -761,55 +763,41 @@ local function getClosestEnemy()
     return target
 end
 
-local function startAutoBat()
-    if autoBatConn then autoBatConn:Disconnect() end
-    autoBatEnabled = true
+if autoBatConn then autoBatConn:Disconnect() end
+
+autoBatConn = RunService.Heartbeat:Connect(function()
+    if not autoBatEnabled then return end
     
-    autoBatConn = RunService.Heartbeat:Connect(function()
-        if not autoBatEnabled then return end
-        
-        local char = LP.Character
-        local hrp = char and char:FindFirstChild("HumanoidRootPart")
-        local hum = char and char:FindFirstChildOfClass("Humanoid")
-        if not hrp or not hum then return end
+    local char = LP.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    local hum = char and char:FindFirstChildOfClass("Humanoid")
+    if not hrp or not hum then return end
 
-        local bat = char:FindFirstChild("Bat") or LP.Backpack:FindFirstChild("Bat")
-        if bat and bat.Parent ~= char then 
-            hum:EquipTool(bat) 
-        end
+    local bat = char:FindFirstChild("Bat") or LP.Backpack:FindFirstChild("Bat")
+    if bat and bat.Parent ~= char then 
+        hum:EquipTool(bat) 
+    end
 
-        local enemy = getClosestEnemy()
-        if enemy then
-            local targetPos = enemy.Position + Vector3.new(0, 3.8, 0)
-            local diff = (targetPos - hrp.Position)
-            local dist = diff.Magnitude
-            local dir = diff.Unit
+    local enemy = getClosestEnemy()
+    if enemy then
+        local targetPos = enemy.Position + Vector3.new(0, 3.8, 0)
+        local diff = (targetPos - hrp.Position)
+        local dist = diff.Magnitude
+        local dir = diff.Unit
 
-            hrp.CFrame = hrp.CFrame:Lerp(CFrame.new(hrp.Position, Vector3.new(enemy.Position.X, hrp.Position.Y, enemy.Position.Z)), 0.25)
+        hrp.CFrame = hrp.CFrame:Lerp(CFrame.new(hrp.Position, Vector3.new(enemy.Position.X, hrp.Position.Y, enemy.Position.Z)), 0.25)
 
-            if dist > 1.2 then
-                hrp.AssemblyLinearVelocity = dir * SillySpeed
-            else
-                hrp.AssemblyLinearVelocity = enemy.AssemblyLinearVelocity * 1.05
-            end
-
-            if bat then bat:Activate() end
+        if dist > 1.2 then
+            hrp.AssemblyLinearVelocity = dir * SillySpeed
         else
-            hrp.AssemblyLinearVelocity = Vector3.new(0, hrp.AssemblyLinearVelocity.Y, 0)
+            hrp.AssemblyLinearVelocity = enemy.AssemblyLinearVelocity * 1.05
         end
-    end)
-end
 
-local function stopAutoBat()
-    autoBatEnabled = false
-    if autoBatConn then 
-        autoBatConn:Disconnect() 
-        autoBatConn = nil 
+        if bat then bat:Activate() end
+    else
+        hrp.AssemblyLinearVelocity = Vector3.new(0, hrp.AssemblyLinearVelocity.Y, 0)
     end
-    if LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
-        LP.Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
-    end
-end
+end)
 
 -- ===================== LAGGER MODE =====================
 local laggerConn=nil
