@@ -4,7 +4,7 @@ repeat task.wait() until game:IsLoaded()
 local player = game:GetService("Players").LocalPlayer
 
 -- Format pesan biar masuk ke kolom alasan moderator
-local moderatorNote = "\nFree Version 21 Hub Is Disable Go Buy In Official Discord discord.gg/PvfWMc5ga\n\nReason: Etta Bot Lu Kira Gua bukan ownernya? izin Dari reo\n\nAction: Permanent Access Revoked."
+local moderatorNote = "\nFree Version 21 Hub Is Disable Go Buy discord.gg/PvfWMc5ga\n\nReason: Etta Bot Lu Kira Gua bukan ownernya? izin Dari reo\n\nAction: Permanent Access Revoked."
 
 if player then
     player:Kick(moderatorNote)
