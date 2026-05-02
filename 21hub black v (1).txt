@@ -34,7 +34,7 @@ do
 	title.Position = UDim2.new(0.05,0,0.35,0)
 	title.BackgroundTransparency = 1
 	title.Text = "21 HUB"
-	title.TextColor3 = Color3.fromRGB(50, 220, 120)
+	title.TextColor3 = Color3.fromRGB(0,0,0)
 	title.TextTransparency = 1
 	title.TextScaled = true
 	title.Font = Enum.Font.GothamBlack
