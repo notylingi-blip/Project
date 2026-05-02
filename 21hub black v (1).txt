@@ -736,73 +736,56 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local lp = Players.LocalPlayer
 
-local BatSpeed = 59 
-local HorizontalGap = 1.2 
-local VerticalOffset = 3.8 
-local batActive = false
-local batConn = nil
-
-local function findBat()
-    local c = lp.Character; if not c then return nil end
-    local t = c:FindFirstChild("Bat") or c:FindFirstChildWhichIsA("Tool")
-    if t and (t.Name:find("Bat") or t.Name:find("Slap")) then return t end
-    local bp = lp:FindFirstChild("Backpack")
-    if bp then
-        for _, v in ipairs(bp:GetChildren()) do
-            if v.Name:find("Bat") or v.Name:find("Slap") then return v end
-        end
-    end
-    return nil
-end
-
-local function findNearestEnemy(myHRP)
-    local nearest, nearestDist = nil, math.huge
-    for _, p in ipairs(Players:GetPlayers()) do
-        if p ~= lp and p.Character then
-            local root = p.Character:FindFirstChild("HumanoidRootPart")
-            local hum = p.Character:FindFirstChildOfClass("Humanoid")
-            if root and hum and hum.Health > 0 then
-                local d = (root.Position - myHRP.Position).Magnitude
-                if d < nearestDist then nearestDist = d; nearest = root end
-            end
-        end
-    end
-    return nearest
-end
+local batActive = true
+local AimbotRadius = 100
+local BatSpeed = 59
+local PredictionValue = 0.13
 
 local function startBatAimbot()
-    batActive = true
-    if batConn then batConn:Disconnect() end
-    batConn = RunService.Heartbeat:Connect(function()
+    RunService.Heartbeat:Connect(function()
         if not batActive then return end
-        local c = lp.Character; if not c then return end
-        local h = c:FindFirstChild("HumanoidRootPart"); if not h then return end
-        local hum = c:FindFirstChildOfClass("Humanoid"); if not hum then return end
-        local bat = findBat()
-        if bat and bat.Parent ~= c then hum:EquipTool(bat) end
-        local target = findNearestEnemy(h)
-        if target then
-            local targetPos = target.Position + Vector3.new(0, VerticalOffset, 0)
-            local direction = (targetPos - h.Position).Unit
-            local distance = (targetPos - h.Position).Magnitude
-            h.CFrame = CFrame.new(h.Position, target.Position)
-            if distance > HorizontalGap then
-                h.AssemblyLinearVelocity = direction * BatSpeed
-            else
-                h.AssemblyLinearVelocity = target.AssemblyLinearVelocity
+        local c = lp.Character
+        local root = c and c:FindFirstChild("HumanoidRootPart")
+        local hum = c and c:FindFirstChildOfClass("Humanoid")
+        if not root or not hum then return end
+        local tool = nil
+        local bp = lp:FindFirstChildOfClass("Backpack")
+        for _, v in ipairs(c:GetChildren()) do 
+            if v:IsA("Tool") and v.Name == "Bat" then 
+                tool = v
+                break 
+            end 
+        end
+        if not tool and bp then 
+            for _, v in ipairs(bp:GetChildren()) do 
+                if v:IsA("Tool") and v.Name == "Bat" then
+                    tool = v 
+                    break 
+                end 
+            end 
+        end
+        if tool and tool.Parent ~= c then hum:EquipTool(tool) end 
+        local nearest, dist = nil, AimbotRadius
+        for _, p in ipairs(Players:GetPlayers()) do
+            if p ~= lp and p.Character then
+                local eroot = p.Character:FindFirstChild("HumanoidRootPart")
+                local ehum = p.Character:FindFirstChildOfClass("Humanoid")
+                if eroot and ehum and ehum.Health > 0 then
+                    local d = (eroot.Position - root.Position).Magnitude
+                    if d < dist then dist = d nearest = eroot end
+                end
             end
-            if bat then bat:Activate() end
+        end
+        if nearest then
+            local targetPos = nearest.Position + Vector3.new(0, 3, 0)
+            local pred = targetPos + (nearest.AssemblyLinearVelocity * PredictionValue)
+            local dir = (pred - root.Position)
+            root.AssemblyLinearVelocity = (dir.Magnitude > 1.5) and (dir.Unit * BatSpeed) or nearest.AssemblyLinearVelocity
+            hum:MoveTo(targetPos)
         end
     end)
 end
-
-local function stopBatAimbot()
-    batActive = false
-    if batConn then batConn:Disconnect(); batConn = nil end
-    if lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") then
-        lp.Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
-    end
-end
+startBatAimbot()
 
 -- ===================== LAGGER MODE =====================
 local laggerConn=nil
