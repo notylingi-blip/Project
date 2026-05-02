@@ -1474,7 +1474,7 @@ mbPanel.Active           = true
 mbPanel.ZIndex           = 50
 Instance.new("UICorner", mbPanel).CornerRadius = UDim.new(0, MB_CORNER+4)
 local mbStroke = Instance.new("UIStroke", mbPanel)
-mbStroke.Color     = Color3.fromRGB(80, 8, 8)
+mbStroke.Color     = Color3.fromRGB(255,255,255)
 mbStroke.Thickness = 1.5
 
 -- Draggable panel (respects lock)
@@ -1510,7 +1510,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	local btn = Instance.new("TextButton", mbPanel)
 	btn.Size             = UDim2.new(0, MB_BTN_W, 0, MB_BTN_H)
 	btn.Position         = UDim2.new(0, x, 0, y)
-	btn.BackgroundColor3 = Color3.fromRGB(255,255,255)
+	btn.BackgroundColor3 = Color3.fromRGB(0,0,0)
 	btn.BorderSizePixel  = 0
 	btn.Text             = ""
 	btn.ZIndex           = 52
@@ -1550,7 +1550,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	local topGlow = Instance.new("Frame", btn)
 	topGlow.Size                   = UDim2.new(0.65, 0, 0, 2)
 	topGlow.Position               = UDim2.new(0.175, 0, 0, 2)
-	topGlow.BackgroundColor3       = Color3.fromRGB(255,255,255)
+	topGlow.BackgroundColor3       = Color3.fromRGB(0,0,0)
 	topGlow.BackgroundTransparency = 0.45
 	topGlow.BorderSizePixel        = 0
 	topGlow.ZIndex                 = 54
@@ -1561,7 +1561,7 @@ local function makeMobileBtn(label, row, col, onClick)
 	lbl.Size                   = UDim2.new(1, 0, 1, 0)
 	lbl.BackgroundTransparency = 1
 	lbl.Text                   = label
-	lbl.TextColor3             = Color3.fromRGB(0,0,0)
+	lbl.TextColor3             = Color3.fromRGB(255,255,255)
 	lbl.Font                   = Enum.Font.GothamBlack
 	lbl.TextSize               = 9
 	lbl.TextWrapped            = true
