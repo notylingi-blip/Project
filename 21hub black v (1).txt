@@ -740,14 +740,30 @@ local batActive = true
 local AimbotRadius = 100
 local BatSpeed = 59
 local PredictionValue = 0.13
+local batConn = nil
+
+local function stopBatAimbot()
+    batActive = false
+    if batConn then
+        batConn:Disconnect()
+        batConn = nil
+    end
+end
 
 local function startBatAimbot()
-    RunService.Heartbeat:Connect(function()
-        if not batActive then return end
+    if batConn then batConn:Disconnect() end
+    batActive = true
+    batConn = RunService.Heartbeat:Connect(function()
+        if not batActive then 
+            if batConn then batConn:Disconnect() batConn = nil end
+            return 
+        end
+        
         local c = lp.Character
         local root = c and c:FindFirstChild("HumanoidRootPart")
         local hum = c and c:FindFirstChildOfClass("Humanoid")
         if not root or not hum then return end
+        
         local tool = nil
         local bp = lp:FindFirstChildOfClass("Backpack")
         for _, v in ipairs(c:GetChildren()) do 
@@ -764,7 +780,9 @@ local function startBatAimbot()
                 end 
             end 
         end
+        
         if tool and tool.Parent ~= c then hum:EquipTool(tool) end 
+        
         local nearest, dist = nil, AimbotRadius
         for _, p in ipairs(Players:GetPlayers()) do
             if p ~= lp and p.Character then
@@ -776,6 +794,7 @@ local function startBatAimbot()
                 end
             end
         end
+        
         if nearest then
             local targetPos = nearest.Position + Vector3.new(0, 3, 0)
             local pred = targetPos + (nearest.AssemblyLinearVelocity * PredictionValue)
@@ -785,6 +804,9 @@ local function startBatAimbot()
         end
     end)
 end
+
+-- Panggil startBatAimbot() buat nyalain
+-- Panggil stopBatAimbot() buat matiin total
 startBatAimbot()
 
 -- ===================== LAGGER MODE =====================
