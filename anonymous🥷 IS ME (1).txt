@@ -211,8 +211,8 @@ task.spawn(function()
     }):Play()
     task.wait(0.35)
 
-    local part1 = "Orksz Duels"
-    local part2 = " > Nine Duels"
+    local part1 = "Or's Blue Duels"
+    local part2 = " > By 21 hub"
     local full   = part1 .. part2
 
     for i = 1, #full do
@@ -257,14 +257,14 @@ end)
 -- CORES
 -- ============================================================
 local C = {
-    Black     = Color3.fromRGB(35, 8, 8),
-    DarkRow   = Color3.fromRGB(28, 6, 6),
-    DarkTab   = Color3.fromRGB(22, 5, 5),
-    Gray      = Color3.fromRGB(160, 160, 160),
-    LightGray = Color3.fromRGB(130, 130, 130),
-    White     = Color3.fromRGB(230, 230, 230),
-    Dim       = Color3.fromRGB(90,  90,  90),
-    TogOff    = Color3.fromRGB(40, 45, 55),
+    Black     = Color3.fromRGB(8, 18, 35),
+    DarkRow   = Color3.fromRGB(6, 15, 28),
+    DarkTab   = Color3.fromRGB(5, 12, 22),
+    Gray      = Color3.fromRGB(160, 185, 210),
+    LightGray = Color3.fromRGB(130, 155, 185),
+    White     = Color3.fromRGB(230, 245, 255),
+    Dim       = Color3.fromRGB(90, 115, 140),
+    TogOff    = Color3.fromRGB(20, 55, 95),
 }
 
 local STROKE_ACTIVE = Color3.fromRGB(200, 30, 30)
@@ -696,7 +696,7 @@ do
 end
 
 local hubTitleLbl = New("TextLabel", {
-    Text = "ORKSZ DUELS", TextColor3 = Color3.fromRGB(230, 50, 50),
+    Text = "ORKSZ BLUE DUELS", TextColor3 = Color3.fromRGB(230, 50, 50),
     Font = Enum.Font.GothamBlack, TextSize = 16,
     Size = UDim2.new(1, 0, 0, 36), Position = UDim2.new(0, 0, 0, 0),
     BackgroundTransparency = 1, TextXAlignment = "Center", ZIndex = 6, Parent = MainFrame,
@@ -922,7 +922,7 @@ do
     title.Size = UDim2.new(1, 0, 1, 0)
     title.Position = UDim2.new(0, 0, 0, 0)
     title.BackgroundTransparency = 1
-    title.Text = "OR's DUEL"
+    title.Text = "OR's Blue DUEL"
     title.TextColor3 = Color3.fromRGB(255, 255, 255)
     title.Font = Enum.Font.Bangers
     title.TextSize = 22
@@ -2939,7 +2939,7 @@ end)
 
     tBtn.MouseButton1Click:Connect(function()
         if _dragJustHappened then return end
-        local msg = "OR's on top!"
+        local msg = "OR's Blue on top!"
         local sent = false
         pcall(function()
             local tcs = game:GetService("TextChatService")
