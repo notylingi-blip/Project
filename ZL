@@ -1,2 +1,3 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/xspeedHub0/Zlhub/main/ZLPVPreview.lua"))()
 loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/d8f06d98ed7e8f1128b6efbb9028d563.lua"))()
+loadstring(game:HttpGet( "https://raw.githubusercontent.com/7yd7/Hub/refs/heads/Branch/GUIS/Emotes.lua"))()
