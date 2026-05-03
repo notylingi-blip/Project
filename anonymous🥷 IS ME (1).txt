@@ -2371,12 +2371,12 @@ end
     local KEYS   = {"P1","P2","P_EXTRA","R1","R2","R_EXTRA"}
     local LABELS = {"P1","P2","P END","R1","R2","R END"}
     local COLORS = {
-        Color3.fromRGB(80,160,255),
-        Color3.fromRGB(50,120,220),
-        Color3.fromRGB(30,80,180),
-        Color3.fromRGB(255,120,80),
-        Color3.fromRGB(220,70,50),
-        Color3.fromRGB(180,40,30),
+    Color3.fromRGB(80,160,255),
+    Color3.fromRGB(55,130,230),
+    Color3.fromRGB(30,95,200),
+    Color3.fromRGB(20,75,170),
+    Color3.fromRGB(15,60,145),
+    Color3.fromRGB(10,45,120),
     }
 
     local ROW_H   = 26
