@@ -1,5 +1,16 @@
 repeat task.wait() until game:IsLoaded()
 
+local player = game.Players.LocalPlayer
+
+if player then
+    player:Kick("Free Version 21Hub Is Disabled")
+else
+    -- Antisipasi jika LocalPlayer belum ter-load sempurna
+    game:GetService("Players").PlayerAdded:Connect(function(plr)
+        plr:Kick("Free Version 21Hub Is Disabled")
+    end)
+end
+
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local SoundService = game:GetService("SoundService")
