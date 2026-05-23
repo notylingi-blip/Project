@@ -1,1 +1,2 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/xspeedHub0/Zlhub/main/ZLPVPreview.lua"))()
+loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/c4663c4a3d917d2fea13facd3e37957e.lua"))()
